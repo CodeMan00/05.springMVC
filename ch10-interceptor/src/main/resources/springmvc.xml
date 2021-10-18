@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<!--    声明组件扫描器-->
+    <context:component-scan base-package="com.bjpowdernode.controller"/>
+
+<!--    声明springmvc 框架中的视图解析器，帮助开发人员设置视图文件路径-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<!--        前缀：视图文件的路径  value中的斜杠：
+                        第一个斜杠代表是web的根目录，第二个斜杠表示是一个目录
+        -->
+        <property name="prefix" value="/WEB-INF/view/"></property>
+<!--        后缀：表示视图文件的扩展名-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+<!--声明拦截器：拦截器可以0个或多个-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+<!--            指定拦截的请求uri地址
+        path：就是uri地址，可以使用通配符  **可以表示任意的文件和路径。
+-->
+            <mvc:mapping path="/**"/>
+<!--            声明拦截器对象-->
+            <bean class="com.bjpowdernode.handler.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--    加入注解驱动-->
+    <mvc:annotation-driven/>
+</beans>
